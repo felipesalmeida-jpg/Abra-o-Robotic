@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Teste Selenium - RPA</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #0f1f3d;
+    margin: 0;
+    padding: 40px;
+}
+main {
+    max-width: 820px;
+    margin: 0 auto;
+    background-color: white;
+    border: 1px solid #c9d5ea;
+    border-radius: 14px;
+    padding: 28px 34px;
+}
+h1 {
+    margin-top: 0;
+}
+.linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+label {
+    font-weight: bold;
+    display: block;
+    margin: 16px 0 6px;
+}
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #94b7f5;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+textarea {
+    height: 90px;
+}
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0;
+}
+.checkbox input {
+    width: auto;
+}
+button {
+    background-color: #2f6fed;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+#resultado {
+    margin-top: 24px;
+    border: 1px solid #0e8a3e;
+    background-color: #eaf8ef;
+    border-radius: 10px;
+    padding: 16px;
+    min-height: 46px;
+    font-weight: bold;
+}
+.apoio {
+    color: #6b7890;
+    font-size: 14px;
+}
+</style>
+</head>
+<body>
+<main>
+<h1>Registro de Atendimento — Teste Selenium</h1>
+<p class="apoio">
+    Página local usada para a primeira prática de automação web com Selenium.
+</p>
+<form id="formAtendimento">
+    <div class="linha">
+        <div>
+            <label for="nome">Nome do solicitante</label>
+            <input id="nome" name="nome" type="text">
+        </div>
+        <div>
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email">
+        </div>
+    </div>
+    <div class="linha">
+        <div>
+            <label for="setor">Setor</label>
+            <select id="setor" name="setor">
+                <option value="">Selecione</option>
+                <option value="Suporte">Suporte</option>
+                <option value="Financeiro">Financeiro</option>
+                <option value="Operações">Operações</option>
+            </select>
+        </div>
+        <div>
+            <label for="prioridade">Prioridade</label>
+            <select id="prioridade" name="prioridade">
+                <option value="">Selecione</option>
+                <option value="Baixa">Baixa</option>
+                <option value="Normal">Normal</option>
+                <option value="Alta">Alta</option>
+            </select>
+        </div>
+    </div>
+    <label for="descricao">Descrição do atendimento</label>
+    <textarea id="descricao" name="descricao"></textarea>
+    <div class="checkbox">
+        <input id="aceite" name="aceite" type="checkbox">
+        <label for="aceite">Confirmo que este registro é apenas um teste didático.</label>
+    </div>
+    <button id="btnRegistrar" type="button">Registrar atendimento</button>
+</form>
+<div id="resultado">Aguardando registro...</div>
+</main>
+<script>
+document.getElementById("btnRegistrar").addEventListener("click", function () {
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const setor = document.getElementById("setor").value;
+    const prioridade = document.getElementById("prioridade").value;
+    const aceite = document.getElementById("aceite").checked;
+    const resultado = document.getElementById("resultado");
+
+    if (!nome || !email || !setor || !prioridade || !aceite) {
+        resultado.textContent = "Registro incompleto: verifique os campos obrigatórios e a confirmação.";
+        resultado.style.backgroundColor = "#fdecec";
+        resultado.style.borderColor = "#d83a3a";
+        return;
+    }
+
+    resultado.textContent = `Registro criado para ${nome} (${email}) — setor ${setor}, prioridade ${prioridade}.`;
+    resultado.style.backgroundColor = "#eaf8ef";
+    resultado.style.borderColor = "#0e8a3e";
+});
+</script>
+</body>
+</html>
