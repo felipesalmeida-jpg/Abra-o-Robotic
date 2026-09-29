@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Dinâmica - Selenium II</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            margin: 0;
+            padding: 40px;
+            color: #14294c;
+        }
+        
+        .painel {
+            max-width: 850px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        h1 {
+            margin-top: 0;
+        }
+        
+        button {
+            padding: 12px 22px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        #btnCarregar {
+            background-color: #3177f1;
+            color: white;
+        }
+        
+        #btnDetalhe {
+            background-color: #7047eb;
+            color: white;
+            display: none;
+        }
+        
+        #resultado {
+            margin-top: 25px;
+            font-weight: bold;
+        }
+        
+        #lista {
+            margin-top: 20px;
+            padding-left: 22px;
+        }
+        
+        #lista li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="painel">
+        <h1>Laboratório Selenium II</h1>
+        <p>Página local para simular carregamento dinâmico.</p>
+        <button id="btnCarregar">Carregar dados</button>
+        <button id="btnDetalhe">Abrir detalhe</button>
+        <div id="resultado">Aguardando carregamento...</div>
+        <ul id="lista"></ul>
+    </div>
+
+    <script>
+        const botaoCarregar = document.getElementById("btnCarregar");
+        const botaoDetalhe = document.getElementById("btnDetalhe");
+        const resultado = document.getElementById("resultado");
+        const lista = document.getElementById("lista");
+
+        botaoCarregar.addEventListener("click", function () {
+            botaoCarregar.disabled = true;
+            botaoDetalhe.style.display = "none";
+            lista.innerHTML = "";
+            resultado.textContent = "Carregando dados...";
+
+            setTimeout(function () {
+                resultado.textContent = "Dados carregados com sucesso.";
+                lista.innerHTML = `
+                    <li>João</li>
+                    <li>Maria</li>
+                    <li>Carlos</li>
+                `;
+                botaoDetalhe.style.display = "inline-block";
+                botaoCarregar.disabled = false;
+            }, 3000);
+        });
+
+        botaoDetalhe.addEventListener("click", abrirDetalhe);
+
+        function abrirDetalhe() {
+            const novaAba = window.open("", "_blank");
+            if (!novaAba) {
+                resultado.textContent = "Não foi possível abrir a nova aba.";
+                return;
+            }
+            
+            novaAba.document.write(`
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f4f7fb;
+            color: #14294c;
+        }
+        .painel {
+            max-width: 700px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+        }
+        h1 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="painel" id="detalhe">
+        <h1>Detalhes do carregamento</h1>
+        <p>A nova aba foi aberta com sucesso.</p>
+        <p>Itens carregados: João, Maria e Carlos.</p>
+    </div>
+</body>
+</html>
+            `);
+            novaAba.document.close();
+        }
+    </script>
+</body>
+</html>
